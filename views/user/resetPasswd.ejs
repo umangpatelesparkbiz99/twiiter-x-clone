@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../global/header') %>
+<body>
+
+    <div class="container-fluid justify-content-between">
+        <div class="container ">
+            <div class="row">
+
+                <%- include('../global/leftPannal') %>
+
+
+                    <div class="col-6 text-white border-start border-end border-secondary min-vh-100 p-0">
+                        <div class="col-auto sticky-top" style=" background: rgba(255, 255, 255, 0.085);backdrop-filter: blur(12px)">
+                            <a class="btn btn-outline-none text-white x-btn d-flex align-items-center gap-2" href="/user/profile/">
+                                <i class="fa-solid fa-arrow-left fs-4"></i>
+                                <span class="fs-4">Back</span>
+                            </a>
+                            <hr class="m-0 p-0">  
+                        </div>
+
+                        <form action="/user/profile/edit/password?_method=PATCH" method="post">
+
+
+                            <!-- User Info Section -->
+                            <div class="px-3 mt-3">
+                                <div class=" mb-3 text-white">
+                                    <div class="form-floating">
+
+                                        <input type="password" name="oldpassword" id="oldpassword"  class="form-control">
+                                        <label for="oldpassword" class="text-primary">Old password</label>
+                                    </div>
+                                    <hr>
+                                    <div class="form-floating">
+
+                                        <input type="password" name="newPassword" id="newPassword" 
+                                            class="form-control">
+                                        <label for="newPassword" class="text-primary">New Password</label>
+                                    </div>
+                                    <hr>
+                                    <div class="form-floating">
+                                    
+                                        <input type="password" name="reNewPassword" id="reNewPassword" class="form-control">
+                                        <label for="reNewPassword" class="text-primary">Re-enter Password</label>
+                                    </div>
+                                </div>
+                                
+
+
+                                <!-- Stats (Followers/Following) -->
+                                <div class="d-flex w-100 mb-3">
+                                    <div class="d-flex w-100 align-items-center ms-auto">
+                                        <input type="submit" class="btn btn-primary w-100 x-btn" value="Change">
+                                    </div>
+
+                                </div>
+                            </div>
+                            </form>
+                    </div>
+
+                    <%- include('../global/rightPannal') %>
+
+            </div>
+        </div>
+    </div>
+    </body>
+
+</html>

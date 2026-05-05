@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../global/header') %>
+
+<body>
+    
+
+        <div class="container-fluid justify-content-between">
+            <div class="container ">
+                <div class="row">
+
+                    <%- include('../global/leftPannal') %>
+
+
+                        <div class="col-6 text-white border-start border-end border-secondary min-vh-100 p-0  ">
+
+                            <div class="col-auto sticky-top" style=" background: rgba(255, 255, 255, 0.085);backdrop-filter: blur(12px)">
+                                <a class="btn btn-outline-none text-white x-btn d-flex align-items-center gap-2" href="/user/profile/">
+                                    <i class="fa-solid fa-arrow-left fs-4"></i>
+                                    <span class="fs-4">Back</span>
+                                </a>
+                                <hr class="m-0">
+                            </div>
+
+                            <div class="row d-flex justify-content-center align-items-center p-3 fs-3">
+                                <!-- Added text-center here -->
+                                
+                                <div class="col col-6 border-bottom border-end text-center">
+                                        <% if (locals.following) { %>
+                                        <a href="/user/following" style="color: aqua;">Following</a>
+                                        <% }  else { %>
+                                            <a href="/user/following">Following</a>
+                                        <% } %>
+                                    </div>
+                                <div class="col col-6 border-bottom text-center border-start">
+                                    <% if (locals.follower) { %>
+                                        <a href="/user/follower" style="color: aqua;">Follower</a>
+                                    <% }  else { %>
+                                        <a href="/user/follower">Follower</a>
+                                     <% } %>
+                                </div>
+                            </div>
+
+                            
+                            <div class="text-white fs-5  p-3 rounded mt-3 ">
+                                <% lists.forEach(list=> { %>
+                                    <div class="row text-white text-align-center justify-content-center">
+                                        <div class="col-2 p-0 m-0 me-auto">
+                                            <a href="/user/profile/<%= list?.username %>">
+                            
+                                                <img src="<%= list?.profile_image !== null ? ("/"+list?.profile_image): 'https://upload.wikimedia.org/wikipedia/commons/0/03/Twitter_default_profile_400x400.png'%>"
+                                                alt="profile" class="rounded-circle border border-4 border-dark bg-dark"
+                                                style="width: 50px; height: 50px; object-fit: cover;">
+                                            </a>
+                                        </div>
+                                        <div class="col-6 d-flex flex-column justify-content-center m-0 p-0">
+                                            <span class="fw-bold text-white">
+                                                <a class="feedUser" href="/user/profile/<%= list?.username %>">
+                                                    <%= list?.name %>
+                                                        <%= list?.lastname %>
+                                                </a>
+                                            </span>
+                                            <span class="text-secondary x-small" style="font-size: 0.85rem;">
+                                                <a href="/user/profile/<%= list?.username %>" style="color: #6c757d;">
+                            
+                                                    @<%= list?.username %>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <div class="col-3 p-0 m-0 justify-content-end d-flex align-items-center me-auto">
+                                        <% if (locals.following) { %>
+                                            <a href="">Unfollow</a>
+                                            <% } else { %>
+                                            <a href="">follow</a>
+                                                <% } %>
+                                            
+                                        </div>
+                                    </div>
+                                    <hr class="p-0">
+                                    <% }) %>
+                            
+                            
+                            </div>
+
+                        </div>
+
+
+                    <%- include('../global/rightPannal') %>
+
+                </div>
+            </div>
+        </div>
+    </body>
+
+</html>

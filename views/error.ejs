@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('global/header') %>
+<body>
+
+        <div class="container-fluid justify-content-between">
+            <div class="container ">
+                <div class="row">
+
+                    <%- include('global/leftPannal') %>
+
+
+                        <div class="col-lg-6 text-white d-flex flex-column mt-3 ">
+                            <!-- back btn  -->
+                            <div class="col-auto">
+                                <a class="btn btn-outline-none text-white x-btn d-flex align-items-center gap-2" href="/home">
+                                    <i class="fa-solid fa-arrow-left fs-4"></i>
+                                    <span class="fs-4">Error</span>
+                                </a>
+                            </div>
+                            
+                            <hr class="mt-0">
+
+                            <div class="row d-flex justify-content-center">
+                                <div class="alert alert-danger d-flex align-items-center col-12 mt-5 " role="alert">
+                                    <strong class="alert-heading me-2">Error:</strong>
+                                    <p class="m-0 text-break"><%= message %></p>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <%- include('global/rightPannal') %>
+
+                </div>
+            </div>
+        </div>
+    </body>
+
+</html>

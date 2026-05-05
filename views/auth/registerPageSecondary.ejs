@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('../global/header') %>
+
+    <body class="bg-dark">
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <form class="p-4 border rounded bg-black needs-validation" novalidate onsubmit="validateLoginInfoCredentials(event,`<%= uni_id %>`)">
+
+                        <!-- Center the logo only -->
+                        <div class="text-center mb-4">
+                            <i class="fa-brands fa-x-twitter fs-1 text-white"></i>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" name="firstName" id="firstName" class="form-control"
+                                placeholder="First Name" required />
+                            <label for="firstName">First Name</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" name="lastName" id="lastName" class="form-control"
+                                placeholder="Last Name" />
+                            <label for="lastName">Last Name</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" name="phone" id="phone" class="form-control" maxlength="25" placeholder="Phone Number" />
+                            <label for="phone">Phone Number +xx</label>
+                            <div class="invalid-feedback">
+                                Please choose a phone number.
+                            </div>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="date" name="dob" id="dob" class="form-control" required />
+                            <label for="dob">Date of Birth</label>
+                        </div>
+
+                        <div class="mb-3">
+                            <sub id="error" style="display: none;color: white;"></sub>
+                        </div>
+                        <!-- Flex container for buttons -->
+                        <div class="d-flex flex-column ">
+                            <input type="reset" value="Reset" class="btn btn-secondary mb-2 x-btn py-3" />  
+                            <input type="submit" value="Sign Up" class="btn btn-primary x-btn py-3" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+
+</html>

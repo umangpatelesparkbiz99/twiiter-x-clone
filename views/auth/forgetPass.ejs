@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../global/header.ejs') %>
+
+    <body class="bg-dark">
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <form class="p-4 border rounded bg-black" onsubmit="checkEmailAndGetOtp(event)">
+
+                        <!-- Center the logo only -->
+                        <div class="text-center mb-4">
+                            <i class="fa-brands fa-x-twitter fs-1 text-white"></i>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" name="email" id="email" class="form-control" placeholder="Email"
+                                required />
+                            <label for="email">Email</label>
+                            <sub id="error" class="text-danger fs-6"></sub>
+                        </div>
+
+
+                        <!-- Flex container for buttons -->
+                        <div class="d-flex flex-column">
+                            <input type="reset" value="Reset" class="btn btn-secondary mb-2 x-btn py-3" />
+
+                            <input type="submit" value="Send Otp" class="btn btn-primary x-btn py-3" />
+                        </div>
+                        <p class="mt-3 text-center text-white ">
+                            Want to log-in?<a href="/auth/login"> Log-In</a>
+                        </p>
+                        <p class="mt-3 text-center text-white ">
+                            Don't have an account?<a href="/auth/register"> Sign up</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+      
+    </body>
+
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../global/header') %>
+<body>
+
+    <div class="container-fluid justify-content-between">
+        <div class="container ">
+            <div class="row">
+
+                <%- include('../global/leftPannal') %>
+
+
+                    <div class="col-lg-6 col-8 text-white border-start border-end border-secondary min-vh-100 p-0">
+                            <!-- back btn  -->
+                            <div class="col-auto sticky-top" style=" background: rgba(255, 255, 255, 0.085);backdrop-filter: blur(12px)">
+                                <a class="btn btn-outline-none text-white x-btn d-flex align-items-center gap-2" href="/home">
+                                    <i class="fa-solid fa-arrow-left fs-4"></i>
+                                    <span class="fs-4">Back</span>
+                                </a>
+                                <hr class="mt-0">
+                            </div>
+
+
+                        <!-- Header Section -->
+                        <div class="position-relative">
+
+                            <!-- Cover Image -->
+                            <img src="<%= user?.cover_image!== null ?("/"+user?.cover_image): 'https://static.vecteezy.com/system/resources/thumbnails/049/148/189/small/natural-green-background-from-young-green-leaves-fresh-green-leaves-covering-the-wall-photo.jpg' %>"
+                            alt="cover" class="w-100 object-fit-cover" style="height: 200px;">
+
+                            <!-- Profile Image (Absolute) -->
+                            <div class="position-absolute start-0  ms-3" style="bottom: -50px; z-index: 5;">
+                                <img src="<%= (user?.profile_image)!== null ? (" /"+user?.profile_image) : 'https://upload.wikimedia.org/wikipedia/commons/0/03/Twitter_default_profile_400x400.png' %>" alt="profile" class="rounded-circle border border-4 border-dark bg-dark"style="width: 130px; height: 130px; object-fit: cover;">
+                            </div>
+                        </div>
+
+                        <!-- Action Button Row -->
+                        <div class="d-flex justify-content-end p-3 gap-3" style="height: 60px;">
+                            <button type="button"
+                                class="btn btn-outline-light rounded-pill fw-bold d-inline-flex align-items-center justify-content-center px-4 py-2"
+                                onclick="document.location.href='/user/profile/edit/password'">Change Password</button>
+                                <button type="button"
+                                    class="btn btn-outline-light rounded-pill fw-bold d-inline-flex align-items-center justify-content-center px-4 py-2"
+                                    onclick="document.location.href='/user/profile/edit'">Edit Profile</button>
+                        </div>
+
+                        <!-- User Info Section -->
+                        <div class="px-3 mt-3 ">
+                            <div class="mb-2">
+                                <h4 class="fw-bold mb-0">
+                                    <%= user?.name %>
+                                        <%= user?.lastname %>
+                                </h4>
+                                <p class="text-secondary mb-2">@<%= user?.username %>
+                                </p>
+
+                            </div>
+                            <div class="d-flex flex-row gap-3 me-auto">
+
+                                <p class=" mb-0">
+                                    <i class="fa-solid fa-phone"></i>
+                                    <%= user?.phone %>
+                                </p>
+
+                                <p>
+                                    <i class="fa-solid fa-at"></i>
+                                    <%= user?.email %>
+                                </p>
+                            </div>
+
+                            <p class="text-white mb-3">
+                                <%= user?.bio || "No bio yet." %>
+                            </p>
+
+                            <!-- Stats (Followers/Following) -->
+                            <div class="row">
+                                <div class="col">
+
+                                    <div class="d-flex gap-3 mb-3">
+                                        <div class="d-flex align-items-center gap-1">
+                                            <a href="/user/following">
+
+                                                <span class="fw-bold text-white">
+                                                    <%= totalFollowing %>
+                                                </span>
+                                                <span class="text-secondary">Following</span>
+                                            </a>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-1">
+                                            <a href="/user/follower">
+
+                                                <span class="fw-bold text-white">
+                                                    <%= totalFollower %>
+                                                </span>
+                                                <span class="text-secondary">Followers</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col fs-6">
+                                    <div class="d-flex gap-3 mb-3 ">
+                                        <div class="d-flex align-items-center gap-1">
+                                            <span>
+                                                <i class="fa-solid fa-calendar "></i>
+                                                Joined at -
+                                                <%= new Intl.DateTimeFormat("en-IN", { dateStyle: 'medium' , timeStyle: 'short'}).format(new Date(user.created_at + "Z")); %>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Nav Tabs (Tweets, Replies, etc) -->
+                        <div class="d-flex justify-content-around border-bottom mb-3 border-secondary mt-2">
+                            <div class="p-3 fw-bold border-bottom border-primary border-4">Posts</div>
+                            <div class="p-3 text-secondary">comments</div>
+                            <div class="p-3 text-secondary">Likes</div>
+                        </div>
+                        <!-- <hr> -->
+                        <% let count=0 %>
+                            <!-- Load all post here  -->
+                            <% all_feed.forEach(feed=> { %>
+
+                                <div class="container-fluid">
+                                    <div class="container">
+                                        <div class="container">
+
+                                            <!-- User info who post this twitt -->
+                                            <div class="row align-items-center text-white g-2">
+                                                <!-- 1. Profile Photo (Only takes space it needs) -->
+                                                <div class="col-auto">
+                                                    <img src="<%= feed?.profile_image !==null ?(" /"+feed?.profile_image) : 'https://upload.wikimedia.org/wikipedia/commons/0/03/Twitter_default_profile_400x400.png' %>" alt="profile" class="rounded-circle border border-2 border-dark" style="width: 45px; height: 45px; object-fit: cover;">
+                                                </div>
+
+                                                <!-- 2. Name and Username -->
+                                                <div class="col-auto d-flex flex-column lh-sm">
+                                                    <span class="fw-bold small">
+                                                        <%= feed?.name %>
+                                                            <%= feed?.lastname %>
+                                                    </span>
+                                                    <span class="text-secondary x-small" style="font-size: 0.85rem;">
+                                                        @<%= feed?.username %>
+                                                    </span>
+
+                                                </div>
+                                                <div class="col">
+                                                    <% if (feed.is_retweet) { %>
+                                                        <span>
+                                                            <i class="fa-solid fa-retweet" style="color: green;"></i>
+                                                        </span>
+                                                        <% } %>
+                                                </div>
+                                                <!-- 3. Post Date (Pushed to the far end) -->
+                                                <div class="col text-end ms-auto">
+                                                    <div class="col-auto d-flex flex-column lh-sm">
+                                                        <span class="fw-bold small" id="trashIcon" onclick="deletePost('<%= feed.tweet_uni_id  %>' )"><i
+                                                            class="fa-solid fa-trash"></i></span>
+                                                            <span class="text-secondary small">
+                                                                <%= new Intl.DateTimeFormat(undefined, { dateStyle: 'medium' , timeStyle: 'short' }).format(new Date(feed?.created_at));%>
+                                                            </span>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                            <hr class="mt-1 ">
+
+                                            <!-- content of this twitt with img if provided -->
+                                            <div class="container d-flex flex-column">
+                                                <p>
+                                                    <%= feed.content %>
+                                                </p>
+                                                <% if (feed.retweet_content) { %>
+                                                    <p>
+                                                        <%= feed.retweet_content %>
+                                                    </p>
+                                                    <% if (feed.retweet_content_image) { %>
+                                                        <div class="container d-flex justify-content-center " style="height: 300px; width: 300px;">
+                                                
+                                                            <img src="<%= ("/"+feed.retweet_content_image) || 'https://images.unsplash.com/photo-1715146303917-835a41f452d0?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'%>"
+                                                                alt="userPost" class="img-fluid object-fit-scale rounded mx-auto d-block">
+                                                        </div>
+                                                        <% } %>
+                                                            <% } %>
+                                                <% if (feed?.content_image) { %>
+
+                                                    <div class="container d-flex justify-content-center "
+                                                        style="height: 300px; width: 300px;">
+
+                                                        <img src="<%= (" /"+feed.content_image)!=null ? ("/"+feed.content_image): 'https://images.unsplash.com/photo-1715146303917-835a41f452d0?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' %>" alt="userPost-Image" class="img-fluid object-fit-scale rounded mx-auto d-block">
+                                                    </div>
+                                                    <hr>
+                                                    <% } %>
+
+                                            </div>
+                                            <div class="container">
+                                                <div class="row">
+                                                    <!-- Like Button -->
+                                                    <div class="col-3 d-flex align-items-center">
+                                                        <button type="button" class="btn fs-5 text-white d-flex align-items-center" onclick="likeUnlikePost('<%= feed.tweet_uni_id %>','<%= user.uni_id %>','<%= count %>')" id="liketweet">
+
+                                                            <% if (feed.isLikedByUser) { %>
+                                                                <i class="fa-solid fa-heart me-2 text-danger" id="liketweetIcn<%=count%>"></i>
+                                                            <% } else { %>
+                                                                <i class="fa-regular fa-heart me-2" id="liketweetIcn<%=count%>"></i>
+                                                            <% } %>
+                                                                <span class="fs-6" id="liketweetCtn<%=count%>">
+                                                                    <%= feed.total_likes || 0 %>
+                                                                </span>
+                                                        </button>
+                                                    </div>
+
+                                                    <!-- Share Button -->
+                                                    <div class="col-3 d-flex align-items-center">
+                                                        <button type="button"
+                                                            class="btn fs-5 text-white d-flex align-items-center">
+                                                            <i class="fa-regular fa-share-from-square me-2"></i>
+                                                            <span class="fs-6">
+                                                                <%= feed.sharesCount || 0 %>
+                                                            </span>
+                                                        </button>
+                                                    </div>
+
+
+                                                    <!-- Comment Button -->
+                                                    <div class="col-3 d-flex align-items-center">
+                                                        <button type="button"
+                                                            class="btn fs-5 text-white d-flex align-items-center" onclick="document.location.href= '/twitts/<%= feed.tweet_uni_id %>/comments'">
+                                                            <i class="fa-regular fa-comment me-2"></i>
+                                                            <span class="fs-6">
+                                                                <%= feed.total_comments || 0 %>
+                                                            </span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <hr>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <% count++;}) %>
+
+                    </div>
+
+                    <%- include('../global/rightPannal') %>
+
+            </div>
+        </div>
+    </div>
+    </body>
+
+</html>

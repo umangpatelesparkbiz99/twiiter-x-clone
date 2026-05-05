@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../global/header') %>
+<body>
+    
+
+    <div class="container-fluid justify-content-between">
+        <div class="container ">
+            <div class="row">
+
+                <%- include('../global/leftPannal') %>
+
+
+                    <div class="col-6 text-white border-start border-end border-secondary min-vh-100 p-0">
+                        <div class="col-auto sticky-top" style=" background: rgba(255, 255, 255, 0.085);backdrop-filter: blur(12px)">
+                            <a class="btn btn-outline-none text-white x-btn d-flex align-items-center gap-2" href="/user/profile/">
+                                <i class="fa-solid fa-arrow-left fs-4"></i>
+                                <span class="fs-4">Back</span>
+                            </a>
+                        </div>
+                        <hr class="mt-0">
+                        <form action="/user/profile/edit?_method=PATCH" method="post" enctype="multipart/form-data">
+
+                            <!-- Header Section -->
+                            <div class="position-relative">
+                                <!-- Cover Image -->
+
+                                <input type="file" name="cover_image" id="cover_image" hidden>
+                                <label for="cover_image" class="w-100" id="cover-image-label">
+
+                                    <img src="/images/editDefulatcoverImage.png"
+                                    alt="cover" class="w-100 object-fit-cover" style="height: 200px;">
+                                    
+                                </label>
+                                    
+                                <!-- Profile Image (Absolute) -->
+                                <div class="position-absolute start-0 ms-3" style="bottom: -50px; z-index: 5;">
+                                    <input type="file" name="profile_image" id="profile_image" hidden>
+                                    <label for="profile_image">
+                                        <img src="/images/add-new-user.png"
+                                        alt="profile" class="rounded-circle border border-4 border-dark bg-dark"
+                                        style="width: 130px; height: 130px; object-fit: cover;">
+                                    </label>
+                                    </div>
+                            </div>
+
+                            <!-- Action Button Row -->
+                            <div class="d-flex justify-content-end p-3" style="height: 60px;">
+
+                            </div>
+
+                            <!-- User Info Section -->
+                            <div class="px-3 mt-3">
+                                <div class=" mb-3 text-white" >
+                                    <div class="form-floating">
+
+                                        <input type="text" name="firstname" id="firstname" value="<%= user?.name %>" class="form-control">
+                                        <label for="firstname" class="text-primary">First Name</label>
+                                    </div>
+                                    <hr>
+                                    <div class="form-floating">
+
+                                        <input type="text" name="lastname" id="lastname" value="<%= user?.lastname %>" class="form-control">
+                                        <label for="lastname" class="text-primary">Last Name</label>
+                                    </div>
+
+                                 
+                                    <!-- <p class="text-secondary mb-2">@username -->
+                                    </p>
+                                </div>
+                                <hr>
+
+                                <div class=" text-white mb-3 " >
+                                    <div class="form-floating">
+                                        <!-- 1. Added form-control class -->
+                                        <!-- 2. Added mandatory placeholder -->
+                                        <textarea name="bio" id="bio" class="form-control" placeholder="Write your bio here"
+                                            style="height: 100px"><%= (user?.bio) || "No bio yet." %></textarea>
+                                    
+                                        <label for="bio" class="text-primary">Bio</label>
+                                    </div>
+
+                                </div>
+
+                                <!-- Stats (Followers/Following) -->
+                                <div class="d-flex w-100 mb-3">
+                                    <div class="d-flex w-100 align-items-center ms-auto">
+                                        <input type="submit"class="btn btn-primary w-100 x-btn" value="Save">
+                                    </div>
+                                    
+                                </div>
+                            </div>
+
+
+
+                    </div>
+
+                    <%- include('../global/rightPannal') %>
+
+            </div>
+        </div>
+    </div>
+    </body>
+
+</html>

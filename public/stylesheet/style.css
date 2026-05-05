@@ -1,0 +1,70 @@
+* {
+  font-family: Chirp, sans-serif;
+}
+
+body {
+  background-color: #000000;
+}
+
+.x-label {
+  color: #ffffff;
+}
+.x-form {
+  width: 700px;
+
+  border: 2px solid rgb(255, 255, 255);
+  border-radius: 25px;
+  padding-bottom: 40px;
+}
+.x-form-box {
+  display: flex;
+  justify-content: center;
+  margin-top: 150px;
+}
+.x-box {
+  display: flex;
+  justify-content: center;
+}
+
+.title {
+  color: #ffffff;
+}
+
+.x-btn {
+  border-radius: 25px;
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.search-input:focus {
+  background-color: black !important;
+  border: 1px solid #1d9bf0 !important;
+  box-shadow: none;
+}
+
+/* Change icon color when input is focused */
+.position-relative:focus-within i {
+  color: #1d9bf0 !important;
+}
+
+.search-input::placeholder {
+  color: #71767b;
+}
+
+#cover-image-label:hover{
+    background-color: #030303;
+}
+#newTwitt::placeholder{
+    color : white;
+    opacity: 1;
+}
+.feedUser{
+    color: white;
+
+}
+#trashIcon:hover{
+  color: red;
+}

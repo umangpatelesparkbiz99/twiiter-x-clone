@@ -1,0 +1,84 @@
+<!-- Added 'd-none' to hide on small screens and 'd-lg-block' to show on large screens -->
+<div class="col-lg-3 d-none d-lg-block py-3 ps-4 sticky-top vh-100 overflow-y-auto border-start custom-scrollbar"
+    style="background-color: #000;">
+
+    <!-- Search Form -->
+    <form class="form-inline mb-3" action="/home?" method="get">
+        <div class="form-floating form-group position-relative d-flex align-items-center">
+            <i class="fa-solid fa-magnifying-glass text-secondary position-absolute ms-3"
+                style="pointer-events: none; z-index: 5;"></i>
+            <input type="text" class="form-control rounded-pill border-0 text-white ps-5 search-input" name="search"
+                id="searchBox" placeholder="Search" style="background-color: #202327; height: 45px;">
+            <label for="searchBox" class="ps-5 text-secondary">Search X</label>
+        </div>
+    </form>
+
+    <!-- Trending Section -->
+    <div class="text-white bg-dark p-3 rounded-4 mt-3">
+        <h5 class="fw-bold mb-3"><i class="fa-solid fa-fire text-danger me-2"></i>Trending topics</h5>
+        <ul class="list-unstyled mb-0">
+            <li class="py-2 border-bottom border-secondary border-opacity-25">#Global-Heat</li>
+            <li class="py-2 border-bottom border-secondary border-opacity-25">#Climate_Change</li>
+            <li class="py-2 border-bottom border-secondary border-opacity-25">#Rupee-crash</li>
+            <li class="py-2 border-bottom border-secondary border-opacity-25">#Programming</li>
+            <li class="py-2">#TechNews</li>
+        </ul>
+    </div>
+
+    <!-- Search Results -->
+    <% if (locals.searchUser) { %>
+        <div class="text-white bg-dark p-3 rounded-4 mt-3">
+            <% locals.searchUser.forEach(user=> { %>
+                <div class="d-flex align-items-center mb-3">
+                    <a href="/user/profile/<%= user?.username %>" class="flex-shrink-0">
+                        <img src="<%= user?.profile_image ? ('/' + user.profile_image) : 'https://wikimedia.org' %>"
+                            alt="profile" class="rounded-circle" style="width: 45px; height: 45px; object-fit: cover;">
+                    </a>
+                    <div class="ms-3 flex-grow-1 overflow-hidden">
+                        <div class="fw-bold text-truncate">
+                            <a class="text-white text-decoration-none" href="/user/profile/<%= user?.username %>">
+                                <%= user?.name %>
+                                    <%= user?.lastname %>
+                            </a>
+                        </div>
+                        <div class="text-secondary small text-truncate">@<%= user?.username %>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-light btn-sm rounded-pill fw-bold px-3">Follow</a>
+                </div>
+                <% }) %>
+        </div>
+        <% } %>
+
+            <!-- Suggestion Header -->
+            <div class="text-white bg-dark p-3 rounded-4 mt-3">
+                <h5 class="fw-bold mb-0">You might like</h5>
+            </div>
+</div>
+
+<style>
+    /* Custom Scrollbar styling */
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: #000;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #333;
+        border-radius: 10px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
+   
+    .search-input:focus {
+        background-color: #202327 !important;
+        box-shadow: none;
+        border: 1px solid #1d9bf0 !important;
+    }
+</style>

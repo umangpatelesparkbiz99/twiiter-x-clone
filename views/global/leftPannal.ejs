@@ -1,0 +1,109 @@
+<nav class="navbar d-flex d-custom-hide bg-black border-bottom px-3 sticky-top">
+    <button class="btn text-white border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">
+        <i class="fa-solid fa-bars fs-3"></i>
+    </button>
+    <i class="fa-brands fa-x-twitter text-white fs-3"></i>
+    <div style="width: 40px;"></div>
+</nav>
+
+<!-- 2. Your Original Sidebar (Modified with 'd-custom-show') -->
+
+    <!-- ... KEEP ALL YOUR ORIGINAL LOGO, LINKS, AND USER PROFILE CODE HERE ... -->
+    <div
+        class="col-2 col-lg-3 d-none d-md-flex flex-column align-items-center align-items-lg-start border-end sticky-top px-2 vh-100 bg-black">
+    
+        <!-- Logo -->
+        <a href="/home" class="mb-3 text-white fs-3 px-2 mt-3">
+            <i class="fa-brands fa-x-twitter m-0"></i>
+        </a>
+    
+        <!-- Home -->
+        <a href="/home" class="mb-3 text-white fs-3 px-2 d-flex align-items-center text-decoration-none">
+            <i class="fa-regular fa-house m-0"></i>
+            <span class="d-none d-lg-inline ms-3">Home</span>
+        </a>
+    
+        <!-- Profile -->
+        <a href="/user/profile/" class="mb-3 text-white fs-3 px-2 d-flex align-items-center text-decoration-none">
+            <i class="fa-regular fa-user m-0"></i>
+            <span class="d-none d-lg-inline ms-3">Profile</span>
+        </a>
+    
+        <!-- Post Button -->
+        <button class="btn py-0 border-0 text-white fs-3 px-2 d-flex align-items-center mb-3" onclick="newPostTime()">
+            <i class="fa-brands fa-twitter"></i>
+            <span class="d-none d-lg-inline ms-3">Posts</span>
+        </button>
+    
+        <!-- Search Button -->
+        <button class="btn py-0 border-0 text-white fs-3 px-2 d-flex align-items-center mb-3"
+            onclick="document.querySelector('#searchBox').focus();document.querySelector('#searchBox').value = '';">
+            <i class="fa-solid fa-magnifying-glass m-0"></i>
+            <span class="d-none d-lg-inline ms-3">Search</span>
+        </button>
+    
+        <!-- User Profile Section -->
+        <div class="mt-auto mb-4 w-100">
+            <div class="d-flex align-items-center justify-content-center justify-content-lg-between px-lg-2">
+                <a href="/user/profile/<%= user?.username %>" class="flex-shrink-0">
+                    <img src="<%= user?.profile_image !== null ? ('/'+user?.profile_image): 'https://upload.wikimedia.org/wikipedia/commons/0/03/Twitter_default_profile_400x400.png'%>"
+                        alt="profile" class="rounded-circle border border-2 border-dark bg-dark"
+                        style="width: 40px; height: 40px; object-fit: cover;">
+                </a>
+    
+                <!-- Hide details on screens smaller than LG -->
+                <div class="d-none d-lg-flex flex-column ms-2 overflow-hidden">
+                    <span class="fw-bold text-white text-truncate" style="font-size: 0.9rem;">
+                        <%= user?.name %>
+                            <%= user?.lastname %>
+                    </span>
+                    <span class="text-secondary text-truncate" style="font-size: 0.8rem;">
+                        @<%= user?.username %>
+                    </span>
+                </div>
+    
+                <!-- Logout Icon (Only on LG+) -->
+                <a href="/auth/logout" class="ms-auto d-none d-lg-block text-primary">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+<!-- 3. Mobile Offcanvas (The Hamburger Menu) -->
+<div class="offcanvas offcanvas-start bg-black text-white" tabindex="-1" id="mobileSidebar" style="width: 280px;">
+    <div class="offcanvas-header border-bottom border-secondary">
+        <i class="fa-brands fa-x-twitter fs-3"></i>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+        <!-- COPY-PASTE your original links here to show them inside the hamburger -->
+    </div>
+</div>
+
+
+
+
+<style>
+    /* Hide desktop sidebar below 700px */
+@media (max-width: 700px) {
+    .d-custom-show {
+        display: none !important;
+    }
+    .d-custom-hide {
+        display: flex !important;
+    }
+}
+
+/* Hide mobile hamburger above 700px */
+@media (min-width: 701px) {
+    .d-custom-hide {
+        display: none !important;
+    }
+    .d-custom-show {
+        display: flex !important;
+    }
+}
+
+</style>
