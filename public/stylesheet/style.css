@@ -11,7 +11,7 @@ body {
 }
 .x-form {
   width: 700px;
-
+  max-width: 95vw;
   border: 2px solid rgb(255, 255, 255);
   border-radius: 25px;
   padding-bottom: 40px;
@@ -67,4 +67,188 @@ a {
 }
 #trashIcon:hover{
   color: red;
+}
+
+/* ============================================
+   RESPONSIVE STYLES
+   ============================================ */
+
+/* --- Feed Image Containers --- */
+.feed-image-container {
+  max-width: 100%;
+  height: auto;
+  max-height: 350px;
+}
+
+.feed-image-container img {
+  max-width: 100%;
+  height: auto;
+  max-height: 350px;
+  object-fit: contain;
+}
+
+/* --- Mobile Bottom Navigation --- */
+.mobile-bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #000;
+  border-top: 1px solid #2f3336;
+  z-index: 1050;
+  padding: 8px 0;
+  padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+}
+
+.mobile-bottom-nav a,
+.mobile-bottom-nav button {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #e7e9ea;
+  font-size: 1.25rem;
+  background: none;
+  border: none;
+  padding: 6px 0;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.mobile-bottom-nav a:hover,
+.mobile-bottom-nav button:hover {
+  color: #1d9bf0;
+}
+
+/* --- Responsive Action Buttons (like, comment, share, retweet) --- */
+.action-btn-row .btn {
+  padding: 4px 8px;
+}
+
+/* --- Profile Section Responsive --- */
+.profile-stats-row {
+  flex-wrap: wrap;
+}
+
+/* ====== TABLET (max-width: 991px / below lg) ====== */
+@media (max-width: 991.98px) {
+  /* Profile action buttons stack */
+  .profile-action-btns {
+    flex-wrap: wrap;
+    gap: 8px !important;
+  }
+  .profile-action-btns .btn {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+  }
+
+  /* Profile info - joined date wraps */
+  .profile-stats-row .col {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+/* ====== MOBILE (max-width: 767px / below md) ====== */
+@media (max-width: 767.98px) {
+  /* Show bottom nav on mobile */
+  .mobile-bottom-nav {
+    display: flex;
+  }
+
+  /* Add bottom padding to body so content isn't hidden behind bottom nav */
+  body {
+    padding-bottom: 65px;
+  }
+
+  /* Make main content column full width */
+  .main-content-col {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  /* Action buttons - smaller text */
+  .action-btn-row .btn {
+    font-size: 0.9rem !important;
+    padding: 2px 4px;
+  }
+  .action-btn-row .btn i {
+    font-size: 1rem !important;
+    margin-right: 4px !important;
+  }
+  .action-btn-row .col-3 {
+    flex: 0 0 25%;
+    max-width: 25%;
+    padding: 0 2px;
+  }
+
+  /* Feed images full width on mobile */
+  .feed-image-container {
+    max-width: 100% !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: 280px;
+  }
+
+  /* Auth forms - full width on mobile */
+  .x-form {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 15px;
+    padding: 20px 15px 30px;
+  }
+  .x-form-box {
+    margin-top: 80px;
+  }
+
+  /* Profile page tweaks */
+  .profile-action-btns .btn {
+    font-size: 0.78rem;
+    padding: 5px 10px;
+  }
+
+  /* Comments title width auto */
+  .comments-title {
+    width: auto !important;
+  }
+
+  /* Reduce heading sizes */
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  /* Tweet compose area */
+  #newTwitt {
+    font-size: 1rem !important;
+  }
+}
+
+/* ====== VERY SMALL PHONES (max-width: 400px) ====== */
+@media (max-width: 400px) {
+  .action-btn-row .btn {
+    font-size: 0.8rem !important;
+    padding: 2px 2px;
+  }
+  .action-btn-row .btn span {
+    font-size: 0.75rem !important;
+  }
+  .profile-action-btns .btn {
+    font-size: 0.7rem;
+    padding: 4px 8px;
+  }
+}
+
+/* --- Search Offcanvas Styles --- */
+#searchOffcanvas {
+  border-top: 1px solid #2f3336;
+}
+#searchOffcanvas .search-input:focus {
+  background-color: #202327 !important;
+  border: 1px solid #1d9bf0 !important;
+  box-shadow: none;
 }

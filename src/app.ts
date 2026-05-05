@@ -1,4 +1,4 @@
-import express , { type Request,type Response ,type NextFunction} from "express";
+import express, { type Request, type Response, type NextFunction } from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 import authRouter from "./routes/auth.routes.ts";
@@ -7,22 +7,21 @@ import cookieParser from "cookie-parser";
 import usersRouter from "./routes/user.routes.ts";
 import { protect } from "./middleware/auth.middleware.ts";
 import session from "express-session";
-import dotenv from "dotenv"
+import dotenv from "dotenv";
 import {twittsRouter} from "./routes/twittes.routes.ts";
 import methodOverride from "method-override";
-import { getTypeParameterOwner } from "typescript";
 import ExpressError from "./utils/ExpressError.ts";
 import { ServicesRoute } from "./routes/captcha.routes.ts";
-import { error } from "console";
-import { STATUS_CODES } from "http";
 import userModel from "./model/user.model.ts";
 import type { RowDataPacket } from "mysql2";
+import statusMonitor from "express-status-monitor";
 
 // Recreate __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+app.use(statusMonitor());
 dotenv.config();
 
 app.set("view engine", "ejs");

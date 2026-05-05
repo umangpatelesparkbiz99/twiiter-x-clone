@@ -11,7 +11,7 @@
         <%- include('../global/leftPannal') %>
 
 
-        <div class="col-6 text-white d-flex flex-column ">
+        <div class="col-lg-6 col-md-10 col-12 text-white d-flex flex-column main-content-col">
         
         
                 <!-- Left Side: Arrow and Back -->
@@ -28,7 +28,7 @@
                 
                         <!-- Center: Comments perfectly aligned -->
                         <div class="col text-center">
-                            <p class="m-0 fs-3 fw-bold " style="width: 255px;">Comments</p>
+                            <p class="m-0 fs-3 fw-bold comments-title" style="width: 255px;">Comments</p>
                         </div>
                 
                     </div>
@@ -95,7 +95,7 @@
                         <%= feed.retweet_content %>
                     </p>
                     <% if (feed.retweet_content_image) { %>
-                        <div class="container d-flex justify-content-center " style="height: 300px; width: 300px;">
+                        <div class="container d-flex justify-content-center feed-image-container">
                 
                             <img src="<%= ("/"+feed.retweet_content_image) || 'https://images.unsplash.com/photo-1715146303917-835a41f452d0?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'%>"
                                 alt="userPost" class="img-fluid object-fit-scale rounded mx-auto d-block">
@@ -103,7 +103,7 @@
                         <% } %>
                             <% } %>
                 <% if (feed?.content_image) { %>
-                <div class="container d-flex justify-content-center " style="height: 300px; width: 300px;">
+                <div class="container d-flex justify-content-center feed-image-container">
 
                   <img src="<%= (" /"+feed.content_image) || 'https://images.unsplash.com/photo-1715146303917-835a41f452d0?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' %>" alt="userPost" class="img-fluid object-fit-scale rounded mx-auto d-block">
                 </div>
@@ -112,7 +112,7 @@
 
               </div>
               <!-- Like Comment Action Btn -->
-              <div class="container">
+              <div class="container action-btn-row">
                 <div class="row">
                   <!-- Like Button -->
                   <div class="col-3 d-flex align-items-center">

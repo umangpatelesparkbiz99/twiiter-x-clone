@@ -1,14 +1,4 @@
-<nav class="navbar d-flex d-custom-hide bg-black border-bottom px-3 sticky-top">
-    <button class="btn text-white border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">
-        <i class="fa-solid fa-bars fs-3"></i>
-    </button>
-    <i class="fa-brands fa-x-twitter text-white fs-3"></i>
-    <div style="width: 40px;"></div>
-</nav>
-
-<!-- 2. Your Original Sidebar (Modified with 'd-custom-show') -->
-
-    <!-- ... KEEP ALL YOUR ORIGINAL LOGO, LINKS, AND USER PROFILE CODE HERE ... -->
+<!-- Desktop Sidebar (visible md and up) -->
     <div
         class="col-2 col-lg-3 d-none d-md-flex flex-column align-items-center align-items-lg-start border-end sticky-top px-2 vh-100 bg-black">
     
@@ -37,7 +27,7 @@
     
         <!-- Search Button -->
         <button class="btn py-0 border-0 text-white fs-3 px-2 d-flex align-items-center mb-3"
-            onclick="document.querySelector('#searchBox').focus();document.querySelector('#searchBox').value = '';">
+            onclick="if(window.innerWidth >= 992) { document.querySelector('#searchBox')?.focus(); } else { new bootstrap.Offcanvas(document.getElementById('searchOffcanvas')).show(); }">
             <i class="fa-solid fa-magnifying-glass m-0"></i>
             <span class="d-none d-lg-inline ms-3">Search</span>
         </button>
@@ -71,39 +61,105 @@
     </div>
 
 
-<!-- 3. Mobile Offcanvas (The Hamburger Menu) -->
-<div class="offcanvas offcanvas-start bg-black text-white" tabindex="-1" id="mobileSidebar" style="width: 280px;">
-    <div class="offcanvas-header border-bottom border-secondary">
-        <i class="fa-brands fa-x-twitter fs-3"></i>
+<!-- Mobile Bottom Navigation Bar (visible below md) -->
+<div class="mobile-bottom-nav">
+    <a href="/home">
+        <i class="fa-regular fa-house"></i>
+    </a>
+    <button type="button" data-bs-toggle="offcanvas" data-bs-target="#searchOffcanvas">
+        <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+    <button onclick="newPostTime()">
+        <i class="fa-solid fa-plus"></i>
+    </button>
+    <a href="/user/profile/">
+        <i class="fa-regular fa-user"></i>
+    </a>
+    <a href="/auth/logout">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+    </a>
+</div>
+
+<!-- Mobile Search Offcanvas (slides up from bottom) -->
+<div class="offcanvas offcanvas-bottom bg-black text-white" tabindex="-1" id="searchOffcanvas" style="height: 85vh; border-radius: 20px 20px 0 0;">
+    <div class="offcanvas-header border-bottom border-secondary px-3 pt-3 pb-2">
+        <h5 class="offcanvas-title fw-bold"><i class="fa-solid fa-magnifying-glass me-2"></i>Search</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
     </div>
-    <div class="offcanvas-body">
-        <!-- COPY-PASTE your original links here to show them inside the hamburger -->
+    <div class="offcanvas-body p-3">
+        <!-- Search Form -->
+        <form class="form-inline mb-3" action="/home?" method="get" id="mobileSearchForm">
+            <div class="form-floating form-group position-relative d-flex align-items-center">
+                <i class="fa-solid fa-magnifying-glass text-secondary position-absolute ms-3" style="pointer-events: none; z-index: 5;"></i>
+                <input type="text" class="form-control rounded-pill border-0 text-white ps-5 search-input" 
+                    name="search" id="mobileSearchInput" placeholder="Search" 
+                    style="background-color: #202327; height: 48px;" autofocus>
+                <label for="mobileSearchInput" class="ps-5 text-secondary">Search X</label>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 rounded-pill mt-3 py-2 fw-bold">Search</button>
+        </form>
+
+        <!-- Search Results will appear here after form submit (page reloads) -->
+        <% if (locals.searchUser && locals.searchUser.length > 0) { %>
+        <div class="mt-3">
+            <h6 class="fw-bold mb-3 text-secondary">Results</h6>
+            <% locals.searchUser.forEach(sUser => { %>
+            <div class="d-flex align-items-center mb-3 p-2 rounded-3" style="background-color: #16181c;">
+                <a href="/user/profile/<%= sUser?.username %>" class="flex-shrink-0">
+                    <img src="<%= sUser?.profile_image ? ('/' + sUser.profile_image) : 'https://upload.wikimedia.org/wikipedia/commons/0/03/Twitter_default_profile_400x400.png' %>"
+                        alt="profile" class="rounded-circle" style="width: 45px; height: 45px; object-fit: cover;">
+                </a>
+                <div class="ms-3 flex-grow-1 overflow-hidden">
+                    <div class="fw-bold text-truncate">
+                        <a class="text-white text-decoration-none" href="/user/profile/<%= sUser?.username %>">
+                            <%= sUser?.name %> <%= sUser?.lastname %>
+                        </a>
+                    </div>
+                    <div class="text-secondary small text-truncate">@<%= sUser?.username %></div>
+                </div>
+                <a href="/user/profile/<%= sUser?.username %>" class="btn btn-outline-light btn-sm rounded-pill fw-bold px-3 ms-2">View</a>
+            </div>
+            <% }) %>
+        </div>
+        <% } %>
+
+        <!-- Trending Section (shown when no search) -->
+        <% if (!locals.searchUser || locals.searchUser.length === 0) { %>
+        <div class="mt-3">
+            <div class="text-white p-3 rounded-4" style="background-color: #16181c;">
+                <h6 class="fw-bold mb-3"><i class="fa-solid fa-fire text-danger me-2"></i>Trending topics</h6>
+                <ul class="list-unstyled mb-0">
+                    <li class="py-2 border-bottom border-secondary border-opacity-25">#Global-Heat</li>
+                    <li class="py-2 border-bottom border-secondary border-opacity-25">#Climate_Change</li>
+                    <li class="py-2 border-bottom border-secondary border-opacity-25">#Rupee-crash</li>
+                    <li class="py-2 border-bottom border-secondary border-opacity-25">#Programming</li>
+                    <li class="py-2">#TechNews</li>
+                </ul>
+            </div>
+        </div>
+        <% } %>
     </div>
 </div>
 
-
-
-
-<style>
-    /* Hide desktop sidebar below 700px */
-@media (max-width: 700px) {
-    .d-custom-show {
-        display: none !important;
-    }
-    .d-custom-hide {
-        display: flex !important;
-    }
-}
-
-/* Hide mobile hamburger above 700px */
-@media (min-width: 701px) {
-    .d-custom-hide {
-        display: none !important;
-    }
-    .d-custom-show {
-        display: flex !important;
-    }
-}
-
-</style>
+<script>
+    // Auto-open search offcanvas if search results exist on mobile
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.innerWidth < 992) {
+            const searchUser = '<%= locals.searchUser ? "yes" : "" %>';
+            if (searchUser) {
+                const offcanvasEl = document.getElementById('searchOffcanvas');
+                if (offcanvasEl) {
+                    const bsOffcanvas = new bootstrap.Offcanvas(offcanvasEl);
+                    bsOffcanvas.show();
+                }
+            }
+        }
+        // Auto-focus search input when offcanvas opens
+        const searchOffcanvas = document.getElementById('searchOffcanvas');
+        if (searchOffcanvas) {
+            searchOffcanvas.addEventListener('shown.bs.offcanvas', function() {
+                document.getElementById('mobileSearchInput')?.focus();
+            });
+        }
+    });
+</script>

@@ -25,6 +25,8 @@ CREATE TABLE `x_follower`(
     `user_id` VARCHAR(255) NOT NULL,
     `follower_id`  VARCHAR(255) NOT NULL,
     PRIMARY KEY (`user_id`, `follower_id`),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY(`user_id`) REFERENCES `x_users`(`uni_id`) ON DELETE CASCADE,
     FOREIGN KEY(`follower_id`) REFERENCES `x_users`(`uni_id`) ON DELETE CASCADE
 );
@@ -44,21 +46,6 @@ CREATE TABLE `x_twittes`(
     
 );
 
-alter table x_twittes add column `parent_id` varchar(255) references `x_twittes`(`uni_id`) on delete cascade;
-
-
--- 4. Retweets Table (Created before likes/comments to allow referencing)
-CREATE TABLE `x_retwittes`(
-    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `uni_id` varchar(255) NOT NULL UNIQUE,
-    `twitte_id` BIGINT UNSIGNED NOT NULL,
-    `user_id` BIGINT UNSIGNED NOT NULL,
-    `re_twitte_content` VARCHAR(280),
-    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY(`user_id`) REFERENCES `x_users`(`uni_id`) ON DELETE CASCADE,
-    FOREIGN KEY(`twitte_id`) REFERENCES `x_twittes`(`uni_id`) ON DELETE CASCADE
-);
-
 -- 5. Comments Table
 CREATE TABLE `x_comments` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -74,11 +61,11 @@ CREATE TABLE `x_comments` (
         ON DELETE CASCADE,
     FOREIGN KEY (`user_id`)
         REFERENCES `x_users` (`uni_id`)
+        ON DELETE CASCADE,
+    foreign key (`comment_id`)
+        references `x_comments`(`uni_id`)
         ON DELETE CASCADE
 );
-
-alter table x_comments modify column `tweet_id` varchar(255) ;
-alter table x_comments add constraint foreign key(`comment_id`) references `x_comments`(`uni_id`) on delete cascade;
 
 -- 6. Likes Table (Separated for clarity)
 CREATE TABLE `x_likes`(
@@ -86,6 +73,8 @@ CREATE TABLE `x_likes`(
     `uni_id` VARCHAR(255) NOT NULL UNIQUE,
     `user_id` VARCHAR(255) NOT NULL NOT NULL,
     `tweet_id` VARCHAR(255) ,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY(`user_id`) REFERENCES `x_users`(`uni_id`) ON DELETE CASCADE,
     FOREIGN KEY(`tweet_id`) REFERENCES `x_twittes`(`uni_id`) ON DELETE CASCADE
 );
@@ -94,12 +83,9 @@ CREATE TABLE `x_likes_comments`(
     `uni_id` VARCHAR(255) NOT NULL UNIQUE,
     `user_id` VARCHAR(255) NOT NULL NOT NULL,
     `comment_id` VARCHAR(255) ,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY(`user_id`) REFERENCES `x_users`(`uni_id`) ON DELETE CASCADE,
     foreign key (`comment_id`) references `x_comments`(`uni_id`) on delete cascade
 );
 
-alter table x_likes add column `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
-alter table x_likes add column `updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
-
-
-drop table `x_likes` ;
