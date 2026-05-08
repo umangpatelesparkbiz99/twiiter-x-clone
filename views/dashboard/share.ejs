@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../global/header') %>
+
+    <body>
+
+        <div class="container-fluid justify-content-between">
+            <div class="container ">
+                <div class="row">
+
+                    <%- include('../global/leftPannal') %>
+
+
+                        <div class="col-lg-6 col-md-10 col-12 text-white d-flex flex-column main-content-col">
+
+
+                            <!-- Left Side: Arrow and Back -->
+                            <div class="container-fluid mt-2 text-white">
+                                <div class="row align-items-center">
+
+                                    <!-- Center: Comments perfectly aligned -->
+                                    <div class="col text-center">
+                                        <p class="m-0 fs-3 fw-bold comments-title" style="width: 255px;">share</p>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+
+
+                            <hr class="mt-0">
+
+
+                            <div class="container-fluid">
+                                <div class="container">
+
+                                    <!-- User info who post this twitt -->
+                                    <div class="row align-items-center text-white g-2">
+                                        <!-- 1. Profile Photo (Only takes space it needs) -->
+                                        <div class="col-auto">
+                                            <a href="/user/profile/<%= feed?.username %>">
+
+                                                <img src="<%= (feed?.profile_image)!== null ? ("/"+feed?.profile_image): 'https://upload.wikimedia.org/wikipedia/commons/0/03/Twitter_default_profile_400x400.png'%>" alt="profile" class="rounded-circle border border-2 border-dark"style="width: 45px; height: 45px; object-fit: cover;">
+
+                                            </a>
+                                        </div>
+
+                                        <!-- 2. Name and Username (Stays right next to photo) -->
+                                        <div class="col-auto d-flex flex-column lh-sm">
+                                            <span class="fw-bold small">
+                                                <a class="feedUser" href="/user/profile/<%= feed?.username %>">
+                                                    <%= feed?.name %>
+                                                        <%= feed?.lastname %>
+                                                </a>
+                                            </span>
+                                            <span class="text-secondary x-small" style="font-size: 0.85rem;">
+                                                <a href="/user/profile/<%= feed?.username %>" style="color: #6c757d;">
+
+                                                    @<%= feed?.username %>
+                                                </a>
+                                            </span>
+
+                                        </div>
+                                        <% if (feed.is_retweet) { %>
+                                            <div class="col">
+                                                <span>
+                                                    <i class="fa-solid fa-retweet" style="color: green;"></i>
+                                                </span>
+                                            </div>
+                                            <% } %>
+                                                <!-- 3. Post Date (Pushed to the far end) -->
+                                                <div class="col text-end ms-auto">
+                                                    <span class="text-secondary small">
+                                                        <%= new Intl.DateTimeFormat("en-In", { dateStyle: 'medium' ,timeStyle: 'short' }).format(new Date(feed?.created_at + 'Z')); %>
+                                                    </span>
+                                                </div>
+                                    </div>
+                                    <hr class="mt-1 ">
+
+                                    <!-- content of this twitt with img if provided -->
+                                    <div class="container d-flex flex-column">
+                                        <p>
+                                            <%= feed.content %>
+                                        </p>
+                                        <% if (feed.retweet_content) { %>
+                                            <p>
+                                                <%= feed.retweet_content %>
+                                            </p>
+                                            <% if (feed.retweet_content_image) { %>
+                                                <div
+                                                    class="container d-flex justify-content-center feed-image-container">
+
+                                                    <img src="<%= ("/"+feed.retweet_content_image)|| 'https://images.unsplash.com/photo-1715146303917-835a41f452d0?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'%>" alt="userPost" class="img-fluid object-fit-scale rounded mx-auto d-block">
+                                                </div>
+                                                <% } %>
+                                                    <% } %>
+                                                        <% if (feed?.content_image) { %>
+                                                            <div
+                                                                class="container d-flex justify-content-center feed-image-container">
+
+                                                                <img src="<%= ("/"+feed.content_image)|| 'https://images.unsplash.com/photo-1715146303917-835a41f452d0?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'%>" alt="userPost" class="img-fluid object-fit-scale rounded mx-auto d-block">
+                                                            </div>
+                                                            <hr>
+                                                            <% } %>
+
+                                    </div>
+                                    <!-- Like Comment Action Btn -->
+                                    <div class="container action-btn-row">
+                                        <div class="row">
+                                            <!-- Like Button -->
+                                            <div class="col-3 d-flex align-items-center">
+                                                <button type="button"
+                                                    class="btn fs-5 text-white d-flex align-items-center"
+                                                    onclick="likeUnlikePost('<%= feed?.tweet_uni_id || feed?.comments_uni_id %>','<%= user.uni_id %>','0')">
+                                                    <% if (feed?.isLikedByUser) { %>
+                                                        <i class="fa-solid fa-heart me-2 text-danger"
+                                                            id="liketweet Icn0"></i>
+                                                        <% } else { %>
+                                                            <i class="fa-regular fa-heart me-2" id="liketweetIcn0"></i>
+                                                            <% } %>
+                                                                <span class="fs-6" id="liketweetCtn0">
+                                                                    <%= feed?.total_likes %>
+                                                                </span>
+                                                </button>
+                                            </div>
+
+                                            <!-- Share Button -->
+                                            <% if (!isCommentsHell) { %>
+<div class="col-3 d-flex align-items-center">
+    <button type="button" id="shareBtn" class="btn fs-5 text-white d-flex align-items-center"
+        data-url="http://localhost:4000/twitts/<%= feed.tweet_uni_id %>/share">
+        <i class="fa-regular fa-share-from-square me-2"></i>
+    </button>
+</div>
+
+<script>
+    document.getElementById('shareBtn').addEventListener('click', function () {
+        // Get the URL from the data attribute
+        const shareUrl = this.getAttribute('data-url');
+
+        // Copy to clipboard
+        navigator.clipboard.writeText(shareUrl).then(() => {
+            // Optional: Visual feedback
+            const originalText = this.innerHTML;
+            this.innerHTML = '<i class="fa-solid fa-check me-2"></i> <span class="fs-6">Copied!</span>';
+
+            // Reset button after 2 seconds
+            setTimeout(() => {
+                this.innerHTML = originalText;
+            }, 2000);
+        }).catch(err => {
+            console.error('Could not copy text: ', err);
+        });
+    });
+
+</script>
+                                                <% } %>
+
+
+                                                    <!-- Comment Button -->
+                                                    <div class="col-3 d-flex align-items-center">
+                                                        <button type="button"
+                                                            class="btn fs-5 text-white d-flex align-items-center"
+                                                            onclick="document.location.href= '/twitts/<%= feed?.tweet_uni_id || feed?.comments_uni_id %>/comments'">
+                                                            <i class="fa-regular fa-comment me-2"></i>
+                                                            <span class="fs-6">
+                                                                <%= feed?.total_comments %>
+                                                            </span>
+                                                        </button>
+                                                    </div>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+                                </div>
+
+                            </div>
+
+                            
+
+
+                        </div>
+
+
+                        <%- include('../global/rightPannal') %>
+
+                </div>
+            </div>
+        </div>
+    </body>
+
+</html>

@@ -54,10 +54,14 @@ twittsRouter.post(
   twittesController.newPost,
 );
 
+twittsRouter.post("/like/comments",(twittesController.likeComment));
+
 twittsRouter
   .route("/:post_id/comments")
   .get(twittesController.getComments)
   .post(twittesController.postComments);
+
+twittsRouter.get("/:post_id/share",twittesController.getShare);
 
 twittsRouter
   .route("/:post_id/Retweet")

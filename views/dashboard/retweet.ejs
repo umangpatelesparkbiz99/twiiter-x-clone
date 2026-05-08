@@ -137,16 +137,35 @@
                                                 </button>
                                             </div>
 
-                                            <!-- Share Button -->
+                                            <!-- share btn  -->
                                             <div class="col-3 d-flex align-items-center">
-                                                <button type="button"
-                                                    class="btn fs-5 text-white d-flex align-items-center">
+                                                <button type="button" id="shareBtn" class="btn fs-5 text-white d-flex align-items-center"
+                                                    data-url="http://192.168.22.114:4000/twitts/<%= feed.tweet_uni_id %>/share">
                                                     <i class="fa-regular fa-share-from-square me-2"></i>
-                                                    <span class="fs-6">
-                                                        0
-                                                    </span>
                                                 </button>
                                             </div>
+                                            
+                                            <script>
+                                                document.getElementById(`shareBtn`).addEventListener('click', function () {
+                                                    // Get the URL from the data attribute
+                                                    const shareUrl = this.getAttribute('data-url');
+
+                                                    // Copy to clipboard
+                                                    navigator.clipboard.writeText(shareUrl).then(() => {
+                                                        // Optional: Visual feedback
+                                                        const originalText = this.innerHTML;
+                                                        this.innerHTML = '<i class="fa-solid fa-check me-2"></i> <span class="fs-6">Copied!</span>';
+
+                                                        // Reset button after 2 seconds
+                                                        setTimeout(() => {
+                                                            this.innerHTML = originalText;
+                                                        }, 2000);
+                                                    }).catch(err => {
+                                                        console.error('Could not copy text: ', err);
+                                                    });
+                                                });
+
+                                            </script>
 
 
 

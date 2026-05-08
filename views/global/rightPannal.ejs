@@ -31,18 +31,16 @@
             <% locals.searchUser.forEach(user=> { %>
                 <div class="d-flex align-items-center mb-3">
                     <a href="/user/profile/<%= user?.username %>" class="flex-shrink-0">
-                        <img src="<%= user?.profile_image ? ('/' + user.profile_image) : 'https://wikimedia.org' %>"
-                            alt="profile" class="rounded-circle" style="width: 45px; height: 45px; object-fit: cover;">
+                        <img src="<%= user?.profile_image ? ('/' + user.profile_image) : 'https://upload.wikimedia.org/wikipedia/commons/0/03/Twitter_default_profile_400x400.png' %>" alt="profile" class="rounded-circle" style="width: 45px; height: 45px; object-fit: cover;">
                     </a>
                     <div class="ms-3 flex-grow-1 overflow-hidden">
                         <div class="fw-bold text-truncate">
                             <a class="text-white text-decoration-none" href="/user/profile/<%= user?.username %>">
                                 <%= user?.name %>
-                                    <%= user?.lastname %>
+                                <%= user?.lastname %>
                             </a>
                         </div>
-                        <div class="text-secondary small text-truncate">@<%= user?.username %>
-                        </div>
+                        <div class="text-secondary small text-truncate">@<%= user?.username %></div>
                     </div>
                     <a href="#" class="btn btn-light btn-sm rounded-pill fw-bold px-3">Follow</a>
                 </div>

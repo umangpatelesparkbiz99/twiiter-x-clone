@@ -349,6 +349,62 @@ ORDER BY c.created_at DESC;
       throw error;
     }
   },
+  checkCommentLike: async (comment_id: string, user_id: string) => {
+    try {
+      const [result]: RowDataPacket[] = (await pool.execute(
+        "select uni_id, user_id, comment_id from x_likes_comments where user_id = ? and comment_id = ? ",
+        [user_id, comment_id],
+      )) as RowDataPacket[];
+      return result?.length > 0 ? result : 0;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
+  doLikeComment: async (
+    uni_id: string,
+    user_id: string,
+    comment_id: string,
+  ) => {
+    try {
+      const [result] = await pool.execute(
+        "insert into x_likes_comments(uni_id, user_id, comment_id) values (?,?,?)",
+        [uni_id, user_id, comment_id],
+      );
+      return result;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
+  doUnlikeComment: async (
+    uni_id: string,
+    user_id: string,
+    comment_id: string,
+  ) => {
+    try {
+      const [result] = await pool.execute(
+        "delete from x_likes_comments where uni_id = ? and user_id = ? and comment_id = ? ",
+        [uni_id, user_id, comment_id],
+      );
+      return result;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
+  getCommentLikeCtn: async (comment_id: string) => {
+    try {
+      const [result] = await pool.execute(
+        "select count(*) as TotalLikes from x_likes_comments where comment_id = ? ",
+        [comment_id],
+      );
+      return result;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
 };
 
 export { twittesModel };

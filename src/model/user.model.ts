@@ -54,7 +54,7 @@ WHERE f.user_id = ? `,
   },
   getAllSearchUser: async (user: string) => {
     const [rows] = await pool.execute(
-      `select uni_id, name, lastname, email, password, username, bio, cover_image, profile_image FROM x_users WHERE username like '${user}%' `,
+      `select uni_id, name, lastname, email, password, username, bio, cover_image, profile_image FROM x_users WHERE username like '${user}%' or name like '${user}%' or lastname like '${user}' `,
     );
     return rows;
   },

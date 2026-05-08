@@ -105,7 +105,7 @@
                 <% if (feed?.content_image) { %>
                 <div class="container d-flex justify-content-center feed-image-container">
 
-                  <img src="<%= (" /"+feed.content_image) || 'https://images.unsplash.com/photo-1715146303917-835a41f452d0?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' %>" alt="userPost" class="img-fluid object-fit-scale rounded mx-auto d-block">
+                  <img src="<%= ("/"+feed.content_image) || 'https://images.unsplash.com/photo-1715146303917-835a41f452d0?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' %>" alt="userPost" class="img-fluid object-fit-scale rounded mx-auto d-block">
                 </div>
                 <hr>
                 <% } %>
@@ -131,14 +131,35 @@
                   <!-- Share Button -->
                    <% if (!isCommentsHell) { %>
                     
+                    <!-- share btn  -->
                     <div class="col-3 d-flex align-items-center">
-                        <button type="button" class="btn fs-5 text-white d-flex align-items-center">
-                            <i class="fa-regular fa-share-from-square me-2"></i>
-                            <span class="fs-6">
-                                0
-                            </span>
-                        </button>
+                      <button type="button" id="shareBtn" class="btn fs-5 text-white d-flex align-items-center"
+                        data-url="http://192.168.22.114:4000/twitts/<%= feed.tweet_uni_id %>/share">
+                        <i class="fa-regular fa-share-from-square me-2"></i>
+                      </button>
                     </div>
+                    
+                    <script>
+                      document.getElementById(`shareBtn`).addEventListener('click', function () {
+                        // Get the URL from the data attribute
+                        const shareUrl = this.getAttribute('data-url');
+
+                        // Copy to clipboard
+                        navigator.clipboard.writeText(shareUrl).then(() => {
+                          // Optional: Visual feedback
+                          const originalText = this.innerHTML;
+                          this.innerHTML = '<i class="fa-solid fa-check me-2"></i> <span class="fs-6">Copied!</span>';
+
+                          // Reset button after 2 seconds
+                          setTimeout(() => {
+                            this.innerHTML = originalText;
+                          }, 2000);
+                        }).catch(err => {
+                          console.error('Could not copy text: ', err);
+                        });
+                      });
+
+                    </script>
                     <% } %>
 
 
@@ -231,9 +252,9 @@
               <!-- //btn -->
               <div class="row text-center">
                 <div class="col-3">
-                  <button type="button" class="btn text-white d-flex align-items-center justify-content-center w-100" onclick="likeUnlikePost('<%= cmts.comments_uni_id %>','<%= cmts.user_uni_id %>','<%= counter %>')">
-                    <i class="fa-regular fa-heart me-2" id="liketweetIcn<%= counter %>"></i>
-                    <span class="fs-6" id="liketweetCtn<%= counter %>">0</span>
+                  <button type="button" class="btn text-white d-flex align-items-center justify-content-center w-100" onclick="likeUnlikeCommnets('<%= cmts.comments_uni_id %>','<%= cmts.user_uni_id %>','<%= counter %>')">
+                    <i class="fa-regular fa-heart me-2" id="likeCommentIcn<%= counter %>"></i>
+                    <span class="fs-6" id="likeCommentCtn<%= counter %>">0</span>
                   </button>
                 </div>
 

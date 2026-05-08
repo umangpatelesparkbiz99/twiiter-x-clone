@@ -78,6 +78,7 @@ CREATE TABLE `x_likes`(
     FOREIGN KEY(`user_id`) REFERENCES `x_users`(`uni_id`) ON DELETE CASCADE,
     FOREIGN KEY(`tweet_id`) REFERENCES `x_twittes`(`uni_id`) ON DELETE CASCADE
 );
+
 CREATE TABLE `x_likes_comments`(
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `uni_id` VARCHAR(255) NOT NULL UNIQUE,
@@ -86,6 +87,6 @@ CREATE TABLE `x_likes_comments`(
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY(`user_id`) REFERENCES `x_users`(`uni_id`) ON DELETE CASCADE,
-    foreign key (`comment_id`) references `x_comments`(`uni_id`) on delete cascade
+    FOREIGN KEY(`comment_id`) REFERENCES `x_comments`(`uni_id`) ON DELETE CASCADE
 );
 

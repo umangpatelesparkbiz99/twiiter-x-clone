@@ -16,7 +16,7 @@
             
               <h2>Home</h2>
               <hr class="mt-0">
-              <% console.log(user.username); %>
+              
               <!-- Insertion of twittes  -->
               <form action="/twitts/create" method="POST" enctype="multipart/form-data">
                 <textarea name="content" id="newTwitt" class="form-control fs-4 bg-dark text-white" placeholder="What's happening?..." rows="2" maxlength="280" required></textarea>
@@ -48,10 +48,7 @@
                         <div class="col-auto">
                           <a href="/user/profile/<%= feed?.username %>">
 
-                            <img src="<%= (feed?.profile_image)!== null ? (" /"+feed?.profile_image)
-                              : 'https://upload.wikimedia.org/wikipedia/commons/0/03/Twitter_default_profile_400x400.png'
-                              %>" alt="profile" class="rounded-circle border border-2 border-dark" style="width: 45px;
-                            height: 45px; object-fit: cover;">
+                            <img src="<%= (feed?.profile_image)!== null ? (" /"+feed?.profile_image): 'https://upload.wikimedia.org/wikipedia/commons/0/03/Twitter_default_profile_400x400.png'%>" alt="profile" class="rounded-circle border border-2 border-dark" style="width: 45px; height: 45px; object-fit: cover;">
                           </a>
                         </div>
 
@@ -150,15 +147,36 @@
                             </button>
                           </div>
 
-                          <!-- Share Button -->
+                          <!-- share btn  -->
                           <div class="col-3 d-flex align-items-center">
-                            <button type="button" class="btn fs-5 text-white d-flex align-items-center">
+                            <button type="button" id="shareBtn<%= count %>" class="btn fs-5 text-white d-flex align-items-center"
+                              data-url="http://192.168.22.114:4000/twitts/<%= feed.tweet_uni_id %>/share">
                               <i class="fa-regular fa-share-from-square me-2"></i>
-                              <span class="fs-6">
-                                0
-                              </span>
                             </button>
                           </div>
+
+                          <script>
+                            document.getElementById(`shareBtn<%=count%>`).addEventListener('click', function () {
+                                // Get the URL from the data attribute
+                                const shareUrl = this.getAttribute('data-url');
+
+                                // Copy to clipboard
+                                navigator.clipboard.writeText(shareUrl).then(() => {
+                                  // Optional: Visual feedback
+                                  const originalText = this.innerHTML;
+                                  this.innerHTML = '<i class="fa-solid fa-check me-2"></i> <span class="fs-6">Copied!</span>';
+
+                                  // Reset button after 2 seconds
+                                  setTimeout(() => {
+                                    this.innerHTML = originalText;
+                                  }, 2000);
+                                }).catch(err => {
+                                  console.error('Could not copy text: ', err);
+                                });
+                              });
+
+                          </script>
+
 
                           <!-- Retweet Button -->
                            <% if (user.username !== feed.username) { %>

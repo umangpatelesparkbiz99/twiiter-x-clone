@@ -88,3 +88,34 @@ async function likeUnlikePost(tweet_id, user_id, whichPost) {
         }
     }
 }
+// likeUnlikeCommnets('550325c4-4a75-4aae-bf58-a2159812addd', '9b936c35-c187-461d-a1c4-43f6eb2e68fa', '1')
+async function likeUnlikeCommnets(comment_id, user_id, whichPost) {
+
+
+    const result = await fetch("/twitts/like/comments", {
+        method: "POST",
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify({ comment_id, user_id })
+    })
+
+    const like = await result.json();
+
+    if (!result.ok || like?.error) {
+        alert('something went wrong');
+        return;
+    } else {
+        // console.log(like.totalLikes);
+        const ele = document.getElementById(`likeCommentIcn${whichPost}`);
+        const ctn = document.getElementById(`likeCommentCtn${whichPost}`)
+        if (ele.classList.contains("fa-solid")) {
+            ele.classList = "fa-regular fa-heart me-2"
+            ctn.innerText = like.totalLike;
+        } else {
+            ele.classList = "fa-solid fa-heart me-2 text-danger"
+            ctn.innerText = like.totalLike
+        }
+    }
+}
+
